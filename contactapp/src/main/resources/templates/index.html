@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <title>Index</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+    <div th:switch="${contacts}">
+    <h2 th:case="null">No contacts yet!</h2>
+        <div th:case="*">
+            <h2>Users</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>Contact Number</th>
+                        <th>Edit</th>
+                        <th>Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                <tr th:each="contact : ${contacts}">
+                    <td th:id="@{contactname{id}(id=${contact.id})}" th:text="${contact.name}"></td>
+                    <td th:id="@{contactnumber{id}(id=${contact.id})}" th:text="${contact.contactnumber}"></td>
+                    <td th:id="@{contactedit{id}(id=${contact.id})}"><a th:href="@{/edit/{id}(id=${contact.id})}">Edit</a></td>
+                    <td th:id="@{contactdelete{id}(id=${contact.id})}"><a th:href="@{/delete/{id}(id=${contact.id})}">Delete</a></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>      
+    <p><a id="addnewcontact" href="/addcontact">Add a new contact</a></p>
+   <form th:action="@{/index}">
+    Filter: <input type="text" name="keyword" id="keyword" size="50" th:value="${keyword}" />
+    &nbsp;
+    <input id="submitsearch" type="submit" value="Search" />
+    &nbsp;
+    <input type="button" value="Clear" id="btnClear" onclick="clearSearch()" />
+	</form>
+	<script type="text/javascript">
+    function clearSearch() {
+        window.location = "[[@{/index}]]";
+    }
+	</script>
+	</div>
+  </body>
+</html>
