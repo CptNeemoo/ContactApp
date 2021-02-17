@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.cptneemoo.entity.Contact;
@@ -27,8 +28,8 @@ public class ContactService {
 		return repo.findByName(name);
 	}
 
-	public void save(@Valid Contact contact) {
-		repo.save(contact);
+	public Contact save(@Valid Contact contact) {
+		return repo.save(contact);
 	}
 
 	public Contact findById(long id) {
@@ -37,8 +38,19 @@ public class ContactService {
 
 	public void delete(Contact contact) {
 		repo.delete(contact);
-		
 	}
 	
+	public void deleteAll() {
+		repo.deleteAll();
+	}
+	
+	public Contact getRandomContact() {
+		String contactName = RandomStringUtils.randomAlphabetic(3,10) + " " + RandomStringUtils.randomAlphabetic(3,10);
+		String contactNumber = RandomStringUtils.randomNumeric(6,13);
+		Contact contact = new Contact();
+		contact.setName(contactName);
+		contact.setContactnumber(contactNumber);
+		return contact;
+	}
 	
 }
